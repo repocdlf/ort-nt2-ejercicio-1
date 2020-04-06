@@ -14,7 +14,11 @@
 
 
 <div class="container-fluid mt-3" id="app">
-    <input type="text" class="form-control" v-model="criterioDeBusqueda" placeholder="Ingresar un criterio de busqueda...">
+    <input type="text" class="form-control" v-model="criterioDeBusquedaNombre"
+        placeholder="Ingresar un criterio de busqueda nombre...">
+    <br>
+    <input type="text" class="form-control" v-model="criterioDeBusquedaDni"
+        placeholder="Ingresar un criterio de busqueda dni...">
     <br>
     <div class="card-deck m-0">
         <div class="row">
@@ -22,7 +26,7 @@
                 <div class="card mb-3">
                     <div class="card-body">
                         <h5 class="card-title">{{getNombreCompleto(persona)}}</h5>
-                        <p class="card-text">dni {{persona.dni}}</p>
+                        <p class="card-text">dni {{getDni(persona)}}</p>
                         <a href="#" class="card-link">{{persona.correo}}</a>
                     </div>
                 </div>
@@ -38,7 +42,8 @@
     new Vue({
         el: '#app',
         data: {
-            criterioDeBusqueda: '',
+            criterioDeBusquedaNombre: '',
+            criterioDeBusquedaDni: '',
             //Aquí, en este array es donde tienen que agregar su información
             personas:
                 [
@@ -58,14 +63,18 @@
         computed: {
             personasFiltradas() {
                 return this.personas.filter((persona) => {
-                    let registroCompleto = `${persona.nombre}${persona.apellido}${persona.dni}${persona.correo}`
-                    return registroCompleto.toLowerCase().includes(this.criterioDeBusqueda.toLowerCase())
+                    let registroNombre = `${persona.nombre}${persona.apellido}`
+                    let registroDni = `${persona.dni}`
+                    return registroNombre.toLowerCase().includes(this.criterioDeBusquedaNombre.toLowerCase()) && registroDni.toLowerCase().includes(this.criterioDeBusquedaDni.toLowerCase())
                 });
             }
         },
         methods: {
             getNombreCompleto(persona) {
                 return `${persona.nombre} ${persona.apellido}`
+            },
+            getDni(persona) {
+                return `${persona.dni}`
             }
         }
     });
